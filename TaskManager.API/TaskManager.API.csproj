@@ -11,4 +11,10 @@
 	<PackageReference Include="NSwag.AspNetCore" Version="14.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManager.Application\TaskManager.Application.csproj" />
+    <ProjectReference Include="..\TaskManager.Infrastructure\TaskManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\TaskManager.Persistence\TaskManager.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>
