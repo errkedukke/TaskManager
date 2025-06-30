@@ -3,7 +3,7 @@ using TaskManager.Domain;
 
 namespace TaskManager.Application.Contracts.Persistance;
 
-public interface ITaskRepository : IGenericRepository<TaskItem>
+public interface ITaskItemRepository : IGenericRepository<TaskItem>
 {
-    Task<bool> IsTaskItemUnique(string taskName);
+    Task<bool> IsTaskItemUnique(string taskItemName);
 }

@@ -4,6 +4,6 @@ namespace TaskManager.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TasksController : ControllerBase
+public class TaskItemsController : ControllerBase
 {
 }
