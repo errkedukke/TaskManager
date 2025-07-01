@@ -1,11 +1,29 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using TaskManager.Application.Contracts.Persistance;
 
 namespace TaskManager.Application.Features.TaskItem.Queries.GetTaskItem;
 
 public class GetTaskItemQueryHandler : IRequestHandler<GetTaskItemQuery, TaskItemDto>
 {
-    public Task<TaskItemDto> Handle(GetTaskItemQuery request, CancellationToken cancellationToken)
+    private readonly ITaskItemRepository _taskItemRepository;
+    private readonly IMapper _mapper;
+
+    public GetTaskItemQueryHandler(ITaskItemRepository taskItemRepository, IMapper mapper)
     {
-        throw new NotImplementedException();
+        _taskItemRepository = taskItemRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<TaskItemDto> Handle(GetTaskItemQuery request, CancellationToken cancellationToken)
+    {
+        var taskItem = await _taskItemRepository.GetByIdAsync(request.Id, cancellationToken);
+
+        if (taskItem == null)
+        {
+            throw new Exception("Not found task");
+        }
+
+        return _mapper.Map<TaskItemDto>(taskItem);
     }
 }

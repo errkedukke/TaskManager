@@ -2,4 +2,4 @@
 
 namespace TaskManager.Application.Features.TaskItem.Queries.GetTaskItem;
 
-public record GetTaskItemQuery : IRequest<TaskItemDto>;
+public record GetTaskItemQuery(Guid Id) : IRequest<TaskItemDto>;

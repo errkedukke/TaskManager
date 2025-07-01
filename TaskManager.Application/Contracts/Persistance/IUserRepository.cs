@@ -5,5 +5,5 @@ namespace TaskManager.Application.Contracts.Persistance;
 
 public interface IUserRepository : IGenericRepository<User>
 {
-    Task<bool> IsUserUnique(string userName);
+    Task<bool> IsUserUniqueAsync(string name);
 }
