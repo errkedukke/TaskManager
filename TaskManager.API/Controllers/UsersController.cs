@@ -122,10 +122,14 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
     {
+
+        if (id != command.Id)
+        {
+            return BadRequest("ID in URL does not match ID in body.");
+        }
+
         try
         {
-            if (id != command.Id)
-                return BadRequest("ID in URL does not match ID in body.");
 
             await _mediator.Send(command, cancellationToken);
             return NoContent();

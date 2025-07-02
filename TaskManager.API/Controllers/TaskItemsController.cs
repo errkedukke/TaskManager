@@ -123,8 +123,13 @@ public class TaskItemsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateTask([FromBody] UpdateTaskItemCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateTask(Guid id, [FromBody] UpdateTaskItemCommand command, CancellationToken cancellationToken)
     {
+        if (id != command.Id)
+        {
+            return BadRequest("ID in URL does not match ID in body.");
+        }
+
         try
         {
             await _mediator.Send(command, cancellationToken);
