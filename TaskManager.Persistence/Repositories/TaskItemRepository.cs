@@ -9,8 +9,8 @@ namespace TaskManager.Persistence.Repositories;
 public class TaskItemRepository(TaskManagerDbContext dbContext)
     : GenericRepository<TaskItem>(dbContext), ITaskItemRepository
 {
-    public async Task<bool> IsTaskItemUniqueAsync(string title)
+    public async Task<bool> IsTaskItemUniqueAsync(string title, CancellationToken cancellationToken)
     {
-        return await dbContext.TaskItems.AsNoTracking().AnyAsync(x => x.Title == title);
+        return await dbContext.TaskItems.AsNoTracking().AnyAsync(x => x.Title == title, cancellationToken);
     }
 }

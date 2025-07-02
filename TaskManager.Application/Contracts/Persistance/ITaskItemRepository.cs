@@ -5,5 +5,5 @@ namespace TaskManager.Application.Contracts.Persistance;
 
 public interface ITaskItemRepository : IGenericRepository<TaskItem>
 {
-    Task<bool> IsTaskItemUniqueAsync(string title);
+    Task<bool> IsTaskItemUniqueAsync(string title, CancellationToken cancellationToken);
 }

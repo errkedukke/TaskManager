@@ -22,6 +22,11 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
             throw new ArgumentNullException(nameof(request.Title));
         }
 
+        if (await IsTaskItemUniuqe(request.Title, cancellationToken))
+        {
+            throw new InvalidOperationException("A task should be unique.");
+        }
+
         var taskItem = new Domain.TaskItem
         {
             Title = request.Title,
@@ -32,4 +37,7 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
         _logger.LogInformation($"Task {taskItem.Title} created.");
         return taskItem.Id;
     }
+
+    private async Task<bool> IsTaskItemUniuqe(string title, CancellationToken cancellationToken) =>
+         await _taskItemRepository.IsTaskItemUniqueAsync(title, cancellationToken);
 }

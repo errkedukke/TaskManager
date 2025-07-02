@@ -22,6 +22,11 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
             throw new ArgumentNullException(nameof(request.Name));
         }
 
+        if (await IsUserUnique(request.Name, cancellationToken))
+        {
+            throw new InvalidOperationException("A user should be unique.");
+        }
+
         var user = new Domain.User
         {
             Name = request.Name
@@ -32,4 +37,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
 
         return user.Id;
     }
+
+    private async Task<bool> IsUserUnique(string name, CancellationToken cancellationToken) =>
+        await _userRepository.IsUserUniqueAsync(name, cancellationToken);
 }
