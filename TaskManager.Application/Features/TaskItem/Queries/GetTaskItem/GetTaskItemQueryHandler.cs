@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using TaskManager.Application.Common;
 using TaskManager.Application.Contracts.Persistance;
 
 namespace TaskManager.Application.Features.TaskItem.Queries.GetTaskItem;
@@ -21,7 +22,7 @@ public class GetTaskItemQueryHandler : IRequestHandler<GetTaskItemQuery, TaskIte
 
         if (taskItem == null)
         {
-            throw new Exception("Not found task");
+            throw new NotFoundException(nameof(TaskItem), request.Id);
         }
 
         return _mapper.Map<TaskItemDto>(taskItem);

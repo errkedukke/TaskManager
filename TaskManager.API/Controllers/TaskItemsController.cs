@@ -16,6 +16,7 @@ public class TaskItemsController : ControllerBase
 {
     private readonly ILogger<TaskItemsController> _logger;
     private readonly IMediator _mediator;
+    private readonly string _internalServerError = "An error occurred while processing your request.";
 
     public TaskItemsController(ILogger<TaskItemsController> logger, IMediator mediator)
     {
@@ -36,14 +37,14 @@ public class TaskItemsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<TaskItemDto>> GetTaskItem(Guid id, CancellationToken cancellationToken)
     {
+        var query = new GetTaskItemQuery(id);
+
         try
         {
-            var query = new GetTaskItemQuery(id);
             var result = await _mediator.Send(query, cancellationToken);
 
             if (result == null)
             {
-                _logger.LogWarning($"Task with ID {id} not found.");
                 return NotFound();
             }
 
@@ -51,8 +52,8 @@ public class TaskItemsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error retrieving task with ID {id}");
-            return StatusCode(500, "Internal server error.");
+            _logger.LogError(ex.Message);
+            return StatusCode(500, _internalServerError);
         }
     }
 
@@ -81,8 +82,8 @@ public class TaskItemsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error fetching task items.");
-            return StatusCode(500, "An error occurred while processing your request.");
+            _logger.LogError(ex.Message);
+            return StatusCode(500, _internalServerError);
         }
     }
 
@@ -105,8 +106,9 @@ public class TaskItemsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error creating task.");
-            return StatusCode(500, "Internal server error.");
+
+            _logger.LogError(ex.Message);
+            return StatusCode(500, _internalServerError);
         }
     }
 
@@ -130,8 +132,8 @@ public class TaskItemsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating task.");
-            return StatusCode(500, "Internal server error.");
+            _logger.LogError(ex.Message);
+            return StatusCode(500, _internalServerError);
         }
     }
 
@@ -153,8 +155,8 @@ public class TaskItemsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error deleting task.");
-            return StatusCode(500, "Internal server error.");
+            _logger.LogError(ex.Message);
+            return StatusCode(500, _internalServerError);
         }
     }
 }

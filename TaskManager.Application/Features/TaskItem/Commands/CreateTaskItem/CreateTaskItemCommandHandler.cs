@@ -19,8 +19,7 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
     {
         if (string.IsNullOrWhiteSpace(request.Title))
         {
-            _logger.LogWarning("Attempted to create task with empty title.");
-            throw new ArgumentException("Title cannot be empty", nameof(request.Title));
+            throw new ArgumentNullException(nameof(request.Title));
         }
 
         var taskItem = new Domain.TaskItem
@@ -30,7 +29,7 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
 
         await _taskItemRepository.CreateAsync(taskItem, cancellationToken);
 
-        _logger.LogInformation($"Task {taskItem.Title} created successfully.");
+        _logger.LogInformation($"Task {taskItem.Title} created.");
         return taskItem.Id;
     }
 }
