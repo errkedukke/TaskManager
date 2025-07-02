@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Tests.API;
+﻿namespace TaskManager.Api.Tests;
 
 [TestFixture]
 public class UsersControllerTests

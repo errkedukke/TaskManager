@@ -15,3 +15,4 @@ global using TaskManager.Application.Features.User.Commands.DeleteUser;
 global using TaskManager.Application.Features.User.Commands.UpdateUser;
 global using TaskManager.Application.Features.User.Queries.GetUser;
 global using TaskManager.Application.Features.User.Queries.GetUsers;
+global using TaskManager.Domain.Enums;

@@ -1,6 +1,4 @@
-﻿using TaskManager.Domain.Enums;
-
-namespace TaskManager.Tests.API;
+﻿namespace TaskManager.Api.Tests;
 
 [TestFixture]
 public class TaskItemsControllerTests
@@ -278,7 +276,6 @@ public class TaskItemsControllerTests
             Assert.That(badRequestResult.Value, Is.EqualTo("ID in URL does not match ID in body."));
         });
     }
-
 
     [Test]
     public async Task UpdateTask_ShouldReturnInternalServerError_WhenExceptionIsThrown()
