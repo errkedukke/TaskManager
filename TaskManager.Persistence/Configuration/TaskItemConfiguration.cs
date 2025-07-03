@@ -22,12 +22,10 @@ public class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
         builder.Property(x => x.State)
             .IsRequired();
 
-        builder.Property(x => x.AssignedUser)
-            .IsRequired(false);
 
         builder.HasOne(x => x.AssignedUser)
             .WithMany()
-            .HasForeignKey(x => x.AssignedUser)
+            .HasForeignKey(x => x.AssignedUserId)
             .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasMany(x => x.TaskAssignmentRecords)

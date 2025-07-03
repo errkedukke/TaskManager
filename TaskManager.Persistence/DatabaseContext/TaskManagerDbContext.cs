@@ -10,6 +10,8 @@ public class TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options
 
     public DbSet<User> Users { get; set; }
 
+    public DbSet<TaskAssignmentRecord> TaskAssignmentRecords { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskManagerDbContext).Assembly);

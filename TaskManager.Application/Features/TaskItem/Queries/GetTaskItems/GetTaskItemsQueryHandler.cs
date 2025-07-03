@@ -18,6 +18,7 @@ public class GetTaskItemsQueryHandler : IRequestHandler<GetTaskItemsQuery, List<
     public async Task<List<TaskItemDto>> Handle(GetTaskItemsQuery request, CancellationToken cancellationToken)
     {
         var taskItems = await _taskItemRepository.GetAsync(cancellationToken);
+
         return _mapper.Map<List<TaskItemDto>>(taskItems);
     }
 }
