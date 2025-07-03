@@ -22,6 +22,7 @@ public static class PersistenceServiceRegistration
         services.AddScoped<ITaskItemRepository, TaskItemRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IDbContextSeedService, DbContextSeedService>();
+        services.AddScoped<ITaskAssignmentRecordRepository, TaskAssignmentRecordRepository>();
 
         return services;
     }

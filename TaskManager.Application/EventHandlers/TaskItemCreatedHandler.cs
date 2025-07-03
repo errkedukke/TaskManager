@@ -1,12 +1,21 @@
 ﻿using MediatR;
+using TaskManager.Application.Contracts.BackgroundServices;
+using TaskManager.Application.Contracts.Persistance;
 using TaskManager.Domain.Events;
 
 namespace TaskManager.Application.EventHandlers;
 
 public class TaskItemCreatedHandler : INotificationHandler<TaskItemCreatedDomainEvent>
 {
-    public Task Handle(TaskItemCreatedDomainEvent notification, CancellationToken cancellationToken)
+    private readonly ITaskItemAssignmentService _taskItemAssignmentService;
+
+    public TaskItemCreatedHandler(ITaskItemAssignmentService taskItemAssignmentService, ITaskItemRepository taskItemRepository)
     {
-        throw new NotImplementedException();
+        _taskItemAssignmentService = taskItemAssignmentService;
+    }
+
+    public async Task Handle(TaskItemCreatedDomainEvent notification, CancellationToken cancellationToken)
+    {
+        await _taskItemAssignmentService.AssignInitialUserAsync(notification.TaskItem, cancellationToken);
     }
 }

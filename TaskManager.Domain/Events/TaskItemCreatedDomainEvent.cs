@@ -2,4 +2,4 @@
 
 namespace TaskManager.Domain.Events;
 
-public record class TaskItemCreatedDomainEvent(Guid TaskItemId) : INotification;
+public record class TaskItemCreatedDomainEvent(TaskItem TaskItem) : INotification;

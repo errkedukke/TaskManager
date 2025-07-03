@@ -36,7 +36,7 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
         };
 
         await _taskItemRepository.CreateAsync(taskItem, cancellationToken);
-        await _mediator.Publish(new TaskItemCreatedDomainEvent(taskItem.Id), cancellationToken);
+        await _mediator.Publish(new TaskItemCreatedDomainEvent(taskItem), cancellationToken);
 
         _logger.LogInformation($"Task {taskItem.Title} created.");
 

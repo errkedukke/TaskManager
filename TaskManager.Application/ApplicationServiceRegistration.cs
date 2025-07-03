@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using TaskManager.Application.Contracts.BackgroundServices;
+using TaskManager.Application.Service;
 
 namespace TaskManager.Application;
 
@@ -11,6 +13,7 @@ public static class ApplicationServiceRegistration
         var executionAssembly = Assembly.GetExecutingAssembly();
         services.AddMediatR(x => x.RegisterServicesFromAssembly(executionAssembly));
         services.AddAutoMapper(executionAssembly);
+        services.AddScoped<ITaskItemAssignmentService, TaskItemAssignmentService>();
 
         return services;
     }
