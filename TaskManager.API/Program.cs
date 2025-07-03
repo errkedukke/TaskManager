@@ -1,3 +1,4 @@
+using TaskManager.API.Extensions;
 using TaskManager.Application;
 using TaskManager.Infrastructure;
 using TaskManager.Persistence;
@@ -19,10 +20,12 @@ builder.Services.AddOpenApiDocument(settings =>
 });
 
 var app = builder.Build();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
     app.UseSwaggerUi();
+    await app.SeedDatabase();
 }
 
 app.UseAuthorization();

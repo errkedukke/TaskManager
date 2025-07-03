@@ -21,6 +21,7 @@ public static class PersistenceServiceRegistration
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<ITaskItemRepository, TaskItemRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IDbContextSeedService, DbContextSeedService>();
 
         return services;
     }

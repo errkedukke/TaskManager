@@ -1,0 +1,49 @@
+[
+  {
+    "Id": "aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaa1",
+    "Title": "Setup CI/CD Pipeline",
+    "State": "InProgress",
+    "AssignedUserId": "11111111-1111-1111-1111-111111111111",
+    "PreviouslyAssignedUserId": "22222222-2222-2222-2222-222222222222",
+    "AssignmentHistory": [
+      {
+        "Id": "22222222-2222-2222-2222-222222222222",
+        "Name": "Bob",
+        "DateCreated": "2025-07-01T08:05:00Z",
+        "Tasks": []
+      },
+      {
+        "Id": "11111111-1111-1111-1111-111111111111",
+        "Name": "Alice",
+        "DateCreated": "2025-07-01T08:00:00Z",
+        "Tasks": []
+      }
+    ],
+    "DateCreated": "2025-07-02T10:00:00Z"
+  },
+  {
+    "Id": "aaaaaaa2-aaaa-aaaa-aaaa-aaaaaaaaaaa2",
+    "Title": "Implement Login Flow",
+    "State": "Waiting",
+    "AssignedUserId": null,
+    "PreviouslyAssignedUserId": null,
+    "AssignmentHistory": [],
+    "DateCreated": "2025-07-02T10:10:00Z"
+  },
+  {
+    "Id": "aaaaaaa3-aaaa-aaaa-aaaa-aaaaaaaaaaa3",
+    "Title": "Write Unit Tests",
+    "State": "Completed",
+    "AssignedUserId": "33333333-3333-3333-3333-333333333333",
+    "PreviouslyAssignedUserId": null,
+    "AssignmentHistory": [
+      {
+        "Id": "33333333-3333-3333-3333-333333333333",
+        "Name": "Charlie",
+        "DateCreated": "2025-07-01T08:10:00Z",
+        "Tasks": []
+      }
+    ],
+    "DateCreated": "2025-07-02T10:20:00Z"
+  }
+]
