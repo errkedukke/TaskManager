@@ -10,14 +10,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("Users");
 
-        builder.HasKey(u => u.Id);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(u => u.Name)
+        builder.Property(x => x.Id)
+            .IsRequired();
+
+        builder.Property(x => x.Name)
             .IsRequired()
-            .HasMaxLength(100)
-            .IsUnicode(false);
+            .HasMaxLength(100);
 
-        builder.HasIndex(u => u.Name)
+        builder.HasIndex(x => x.Name)
             .IsUnique();
     }
 }

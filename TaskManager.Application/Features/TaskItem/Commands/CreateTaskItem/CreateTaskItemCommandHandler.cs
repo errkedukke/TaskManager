@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using TaskManager.Application.Contracts.Persistance;
+using TaskManager.Domain.Events;
 
 namespace TaskManager.Application.Features.TaskItem.Commands.CreateTaskItem;
 
@@ -8,11 +9,13 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
 {
     private readonly ITaskItemRepository _taskItemRepository;
     private readonly ILogger<CreateTaskItemCommandHandler> _logger;
+    private readonly IMediator _mediator;
 
-    public CreateTaskItemCommandHandler(ITaskItemRepository taskItemRepository, ILogger<CreateTaskItemCommandHandler> logger)
+    public CreateTaskItemCommandHandler(ITaskItemRepository taskItemRepository, ILogger<CreateTaskItemCommandHandler> logger, IMediator mediator)
     {
         _taskItemRepository = taskItemRepository;
         _logger = logger;
+        _mediator = mediator;
     }
 
     public async Task<Guid> Handle(CreateTaskItemCommand request, CancellationToken cancellationToken)
@@ -33,8 +36,10 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
         };
 
         await _taskItemRepository.CreateAsync(taskItem, cancellationToken);
+        await _mediator.Publish(new TaskItemCreatedDomainEvent(taskItem.Id), cancellationToken);
 
         _logger.LogInformation($"Task {taskItem.Title} created.");
+
         return taskItem.Id;
     }
 

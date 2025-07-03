@@ -8,34 +8,30 @@ public class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
 {
     public void Configure(EntityTypeBuilder<TaskItem> builder)
     {
-        builder.ToTable("tasks");
-        builder.HasKey(t => t.Id);
+        builder.ToTable("Tasks");
 
-        builder.Property(t => t.Title)
-            .IsRequired()
-            .HasMaxLength(200);
+        builder.HasKey(x => x.Id);
 
-        builder.HasIndex(t => t.Title)
-            .IsUnique();
-
-        builder.Property(t => t.State)
+        builder.Property(x => x.Id)
             .IsRequired();
 
-        builder.Property(t => t.AssignedUserId).IsRequired(false);
-        builder.Property(t => t.PreviouslyAssignedUserId).IsRequired(false);
+        builder.Property(x => x.Title)
+            .IsRequired()
+            .HasMaxLength(100);
 
-        builder.HasOne(t => t.AssignedUser)
-            .WithMany(u => u.Tasks)
-            .HasForeignKey(t => t.AssignedUserId)
+        builder.Property(x => x.State)
+            .IsRequired();
+
+        builder.Property(x => x.AssignedUser)
+            .IsRequired(false);
+
+        builder.HasOne(x => x.AssignedUser)
+            .WithMany()
+            .HasForeignKey(x => x.AssignedUser)
             .OnDelete(DeleteBehavior.SetNull);
 
-        builder.HasOne(t => t.PreviouslyAssignedUser)
-            .WithMany()
-            .HasForeignKey(t => t.PreviouslyAssignedUserId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        builder.HasMany(t => t.AssignmentHistory)
-            .WithMany()
-            .UsingEntity(j => j.ToTable("TaskItemAssignmentHistory"));
+        builder.HasMany(x => x.TaskAssignmentRecords)
+            .WithOne(x => x.TaskItem)
+            .HasForeignKey(x => x.TaskItemId);
     }
 }

@@ -15,7 +15,5 @@ public sealed class TaskItem : BaseEntity
 
     public Guid? PreviouslyAssignedUserId { get; set; }
 
-    public User? PreviouslyAssignedUser { get; set; }
-
-    public ICollection<User> AssignmentHistory { get; set; } = [];
+    public ICollection<TaskAssignmentRecord> TaskAssignmentRecords { get; set; } = [];
 }

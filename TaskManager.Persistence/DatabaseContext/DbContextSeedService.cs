@@ -7,6 +7,7 @@ namespace TaskManager.Persistence.DatabaseContext;
 public class DbContextSeedService : IDbContextSeedService
 {
     private readonly TaskManagerDbContext _dbContext;
+    private readonly string _basePath = "..\\TaskManager.Persistence\\Data";
 
     public DbContextSeedService(TaskManagerDbContext dbContext)
     {
@@ -20,9 +21,8 @@ public class DbContextSeedService : IDbContextSeedService
             return;
         }
 
-        var basePath = Path.Combine("..", "TaskManager.Persistence", "Data");
-        var taskItemsPath = Path.Combine(basePath, "TaskItems.json");
-        var usersPath = Path.Combine(basePath, "Users.json");
+        var taskItemsPath = Path.Combine(_basePath, "TaskItems.json");
+        var usersPath = Path.Combine(_basePath, "Users.json");
 
         if (!File.Exists(taskItemsPath) || !File.Exists(usersPath))
         {
@@ -32,6 +32,7 @@ public class DbContextSeedService : IDbContextSeedService
         var taskItemsAsJson = await File.ReadAllTextAsync(taskItemsPath);
         var usersAsJson = await File.ReadAllTextAsync(usersPath);
 
+        // Does not work find out why.
         var tasks = JsonSerializer.Deserialize<List<TaskItem>>(taskItemsAsJson);
         var users = JsonSerializer.Deserialize<List<User>>(usersAsJson);
 
