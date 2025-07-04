@@ -18,12 +18,4 @@ public interface ITaskItemAssignmentService
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task ProcessReassignmentsAsync(CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Used for determining if task has completed or not
-    /// </summary>
-    /// <param name="task"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task<bool> HasBeenAssignedToAllUsersAsync(TaskItem task, CancellationToken cancellationToken);
 }
