@@ -1,61 +1,75 @@
-# ✅ Task Management Web API – Assignment Checklist
+# 🗂️ Task Management Web API
 
-This project is a simple Web API for managing users and tasks with automatic task assignment and reassignment logic.
-
----
-
-## 🏗️ General Structure
-
-- ✅ Create Web API project (no UI)
-- ✅ Implement `User` entity with:
-  - ✅ Unique `Name`
-- ✅ Implement `TaskItem` entity with:
-  - ✅ Unique `Title`
-  - ✅ `State` enum: `Waiting`, `InProgress`, `Completed`
-  - ⬜ One assigned user
-  - ⬜ Previous assigned user
-  - ⬜ Assignment history (track all users the task has been assigned to)
+A clean, modular .NET Web API for managing tasks and users, built as a coding assignment for Login VSI via CoderStaffing.
 
 ---
 
-## 🔧 API Functionality
+## 🧱 Architecture
 
-### 👤 Users
-- ✅ Create user endpoint
-- ✅ Get all users endpoint
+The solution follows **Clean Architecture** principles with a layered structure:
 
-### 📋 Tasks
-- ✅ Create task endpoint
-- ✅ Get all tasks endpoint
-- ⬜ On task creation:
-  - ⬜ Automatically assign to a random available user
-  - ⬜ If no users are available, set task state to `Waiting`
+```
+src/
+├── API/
+│   └── TaskManager.API                 → Entry point, controllers, setup
+├── Core/
+│   ├── TaskManager.Domain              → Entities, enums, domain events
+│   └── TaskManager.Application         → Interfaces, services, business logic
+├── Infrastructure/
+│   └── TaskManager.Infrastructure      → Background Services
+│   └── TaskManager.Persistence         → EF Core context, configs, seeders
 
----
-
-## ⏱️ Background Service (runs every 2 minutes)
-
-- ⬜ Reassign active tasks to a **new random user**:
-  - ⬜ Not the current assigned user
-  - ⬜ Not the previously assigned user (last round)
-  - ⬜ Can be a user assigned 2+ rounds ago
-  - ⬜ If no eligible user, keep task in `Waiting`
-- ⬜ Track assignment history for each task
-- ⬜ Mark task as `Completed` and unassign once it has been assigned to **all users**, including newly created ones
+tests/
+├── API/
+│   └── TaskManager.API.Tests           → Controller/API layer tests
+└── Core/
+    └── TaskManager.Application.Tests   → Unit tests for business logic
+```
 
 ---
 
-## ⚠️ Edge Case Handling
+## 📦 Features
 
-- ⬜ Newly created users should eventually receive all incomplete tasks
-- ⬜ `Completed` tasks should not be reassigned
-- ⬜ If no users are available, task remains in `Waiting`
+- ✅ Create and fetch **Users** with unique names  
+- ✅ Create and fetch **Tasks** with unique titles and states  
+- ✅ Automatically assign tasks to users on creation  
+- ✅ Reassign tasks every 2 minutes in the background  
+- ✅ Prevent reassignment to the current or previous user  
+- ✅ Ensure all users are eventually assigned before the task is marked `Completed`  
+- ✅ Task assignment history tracked for auditing  
+- ✅ Fully unit-tested core logic (NUnit + Moq)
 
 ---
 
-## 💡 Project Requirements
+### Run the API Or Run Unit Tests
 
-- ✅ Easy to run/debug (includes unit tests)
-- ✅ Clean architecture (Domain, Application, Infrastructure, API)
-- ✅ Structured logging (e.g. `_logger.LogInformation("...")`)
-- ✅ Lightweight DB (In-Memory or SQLite for simplicity)
+Sample data is seeded in in-memory DB during the startap run if the environment is Development:
+```
+TaskManager.Persistence/Data/
+├── Users.json
+├── TaskAssignmentRecords.json
+└── TaskItems.json
+
+```
+
+
+## 🧠 Design Highlights
+
+- `BackgroundService` handles scheduled reassignment logic
+- Domain event triggers assignment after task creation
+- Service + repository layers decouple infrastructure from business logic
+- Exception-safe, testable, and extensible architecture
+
+---
+
+## 🤝 Author
+
+Built by **Guga R** as a technical assignment for Login VSI via CoderStaffing.  
+Designed with care for clarity, robustness, and real-world maintainability.
+
+---
+
+## 📫 Contact
+
+If you'd like to connect or give feedback:  
+📧 ruxadze0@gmail.com
