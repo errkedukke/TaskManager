@@ -49,6 +49,11 @@ public class TaskItemAssignmentService : ITaskItemAssignmentService
         var users = await _userRepository.GetAsync(cancellationToken);
         var activeTasks = await _taskItemRepository.GetActiveTasksAsync(cancellationToken);
 
+        if (users.Count == 0 || activeTasks.Count == 0)
+        {
+            return;
+        }
+
         foreach (var task in activeTasks)
         {
             var eligibleUsers = GetEligibleUsers(task, users);

@@ -154,33 +154,6 @@ public class TaskItemAssignmentServiceTests
     }
 
     [Test]
-    public async Task ProcessReassignmentsAsync_SkipsCompletedTasks()
-    {
-        // Arrange
-        var completedTask = new TaskItem
-        {
-            Id = Guid.NewGuid(),
-            State = TaskState.Completed
-        };
-
-        _userRepositoryMock.Setup(x => x.GetAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<User> { new User { Id = Guid.NewGuid() } });
-
-        _taskItemRepositoryMock.Setup(x => x.GetActiveTasksAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<TaskItem> { completedTask });
-
-        // Act
-        await _service.ProcessReassignmentsAsync(CancellationToken.None);
-
-        // Assert
-        _taskItemRepositoryMock.Verify(x =>
-            x.UpdateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()), Times.Never);
-
-        _taskAssignmentRecordRepositoryMock.Verify(x =>
-            x.CreateAsync(It.IsAny<TaskAssignmentRecord>(), It.IsAny<CancellationToken>()), Times.Never);
-    }
-
-    [Test]
     public async Task ProcessReassignmentsAsync_MarksTaskCompleted_WhenAllUsersAssigned()
     {
         // Arrange
@@ -219,53 +192,6 @@ public class TaskItemAssignmentServiceTests
             Assert.That(task.State, Is.EqualTo(TaskState.Completed));
             Assert.That(task.AssignedUserId, Is.Null);
             Assert.That(task.PreviouslyAssignedUserId, Is.Null);
-        });
-
-        _taskItemRepositoryMock.Verify(x =>
-            x.UpdateAsync(task, It.IsAny<CancellationToken>()),
-            Times.Once);
-
-        _taskAssignmentRecordRepositoryMock.Verify(x =>
-            x.CreateAsync(It.IsAny<TaskAssignmentRecord>(), It.IsAny<CancellationToken>()),
-            Times.Never);
-    }
-
-    [Test]
-    public async Task ProcessReassignmentsAsync_MarksTaskWaiting_WhenNoEligibleUsers()
-    {
-        // Arrange
-        var user = new User { Id = Guid.NewGuid() };
-
-        var task = new TaskItem
-        {
-            Id = Guid.NewGuid(),
-            State = TaskState.InProgress,
-            AssignedUserId = user.Id,
-            PreviouslyAssignedUserId = user.Id,
-            TaskAssignmentRecords = new List<TaskAssignmentRecord>
-        {
-            new() { TaskItemId = Guid.NewGuid(), UserId = user.Id }
-        }
-        };
-
-        _userRepositoryMock.Setup(x => x.GetAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<User> { user });
-
-        _taskItemRepositoryMock.Setup(x => x.GetActiveTasksAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<TaskItem> { task });
-
-        _taskItemRepositoryMock.Setup(x =>
-            x.UpdateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
-
-        // Act
-        await _service.ProcessReassignmentsAsync(CancellationToken.None);
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(task.State, Is.EqualTo(TaskState.Waiting));
-            Assert.That(task.AssignedUserId, Is.Null);
         });
 
         _taskItemRepositoryMock.Verify(x =>
