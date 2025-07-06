@@ -38,10 +38,28 @@ tests/
 - ✅ Ensure all users are eventually assigned before the task is marked `Completed`  
 - ✅ Task assignment history tracked for auditing  
 - ✅ Fully unit-tested core logic (NUnit + Moq)
-
+- ✅ Added docker support for easy deployabiltiy
 ---
 
-### Run the API Or Run Unit Tests
+### Running the API or Unit Tests
+
+There are three ways to run and debug this application:
+
+1. **Run Unit Tests**  
+   Use Visual Studio's Test Explorer to run unit tests. This verifies core logic and application behavior.
+
+2. **Run via Visual Studio (Development Mode)**  
+   - Set `TaskManager.API` as the startup project.
+   - Run the app (F5 or Ctrl+F5).
+   - This runs the app in **development mode**.
+   - The database will be **seeded with test data**.
+   - All CRUD endpoints for tasks and users will be available.
+
+3. **Run with Docker Compose (Production Mode)**  
+   - Use `docker-compose.yml` with Docker Desktop.
+   - This runs the app in **release mode**.
+   - The database will **not be seeded**.
+   - Ideal for testing the containerized version of the app.
 
 Sample data is seeded in in-memory DB during the startap run if the environment is Development:
 ```
