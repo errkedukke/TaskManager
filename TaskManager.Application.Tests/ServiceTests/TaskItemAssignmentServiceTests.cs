@@ -1,10 +1,4 @@
-﻿using Moq;
-using TaskManager.Application.Contracts.Persistance;
-using TaskManager.Application.Service;
-using TaskManager.Domain;
-using TaskManager.Domain.Enums;
-
-namespace TaskManager.Application.Tests.ServiceTests;
+﻿namespace TaskManager.Application.Tests.ServiceTests;
 
 [TestFixture]
 public class TaskItemAssignmentServiceTests
