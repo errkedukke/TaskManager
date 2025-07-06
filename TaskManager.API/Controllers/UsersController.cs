@@ -25,7 +25,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("/test")]
-    public IActionResult RunTests() => Ok("API test successful" + DateTime.UtcNow);
+    public IActionResult RunTests() => Ok("API test successful: " + DateTime.UtcNow);
 
     /// <summary>
     /// Retrieves a user by their unique identifier.

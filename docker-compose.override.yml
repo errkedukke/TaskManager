@@ -1,7 +1,7 @@
 services:
   taskmanager.api:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Release
       - ASPNETCORE_HTTP_PORTS=5000
     ports:
       - "5000"

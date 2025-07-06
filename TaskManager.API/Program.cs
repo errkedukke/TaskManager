@@ -1,3 +1,4 @@
+using TaskManager.API.Extensions;
 using TaskManager.Application;
 using TaskManager.Infrastructure;
 using TaskManager.Persistence;
@@ -24,7 +25,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
     app.UseSwaggerUi();
-    //await app.SeedDatabase();
+    await app.SeedDatabase();
 }
 
 app.UseAuthorization();
