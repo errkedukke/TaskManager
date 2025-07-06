@@ -24,6 +24,9 @@ public class UsersController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpGet("/test")]
+    public IActionResult RunTests() => Ok("API test successful" + DateTime.UtcNow);
+
     /// <summary>
     /// Retrieves a user by their unique identifier.
     /// </summary>
