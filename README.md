@@ -41,7 +41,7 @@ tests/
 - ✅ Added docker support for easy deployabiltiy
 ---
 
-### Running the API or Unit Tests
+## 🚀 Running the API or Unit Tests
 
 There are three ways to run and debug this application:
 
