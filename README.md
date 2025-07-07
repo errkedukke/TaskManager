@@ -39,6 +39,8 @@ tests/
 - ✅ Task assignment history tracked for auditing  
 - ✅ Fully unit-tested core logic (NUnit + Moq)
 - ✅ Added docker support for easy deployabiltiy
+- ✅ Added Fluent validation for validating entities
+- ✅ Added customg blobal exception handling middleware
 ---
 
 ## 🚀 Running the API or Unit Tests

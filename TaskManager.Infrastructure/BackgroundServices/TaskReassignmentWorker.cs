@@ -4,7 +4,7 @@ using TaskManager.Application.Contracts.BackgroundServices;
 
 namespace TaskManager.Infrastructure.BackgroundServices;
 
-public class TaskReassignmentWorker : BackgroundService
+public sealed class TaskReassignmentWorker : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
 

@@ -4,7 +4,7 @@ using TaskManager.Application.Contracts.Persistance;
 
 namespace TaskManager.Application.Features.User.Queries.GetUsers;
 
-public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<UserDto>>
+public sealed class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<UserDto>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;

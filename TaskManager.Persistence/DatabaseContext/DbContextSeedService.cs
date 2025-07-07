@@ -4,7 +4,7 @@ using TaskManager.Domain;
 
 namespace TaskManager.Persistence.DatabaseContext;
 
-public class DbContextSeedService : IDbContextSeedService
+public sealed class DbContextSeedService : IDbContextSeedService
 {
     private readonly TaskManagerDbContext _dbContext;
     private readonly string _basePath = "..\\TaskManager.Persistence\\Data";

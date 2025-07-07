@@ -12,7 +12,7 @@ namespace TaskManager.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UsersController : ControllerBase
+public sealed class UsersController : ControllerBase
 {
     private readonly ILogger<UsersController> _logger;
     private readonly IMediator _mediator;
@@ -23,9 +23,6 @@ public class UsersController : ControllerBase
         _logger = logger;
         _mediator = mediator;
     }
-
-    [HttpGet("/test")]
-    public IActionResult RunTests() => Ok("API test successful: " + DateTime.UtcNow);
 
     /// <summary>
     /// Retrieves a user by their unique identifier.

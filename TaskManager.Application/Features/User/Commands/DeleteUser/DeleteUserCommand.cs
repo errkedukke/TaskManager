@@ -2,7 +2,7 @@
 
 namespace TaskManager.Application.Features.User.Commands.DeleteUser;
 
-public class DeleteUserCommand : IRequest<Unit>
+public sealed class DeleteUserCommand : IRequest<Unit>
 {
     public Guid Id { get; set; }
 }

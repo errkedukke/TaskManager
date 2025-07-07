@@ -3,7 +3,7 @@ using TaskManager.Domain.Enums;
 
 namespace TaskManager.Application.Features.TaskItem.Commands.UpdateTaskItem;
 
-public class UpdateTaskItemCommand : IRequest<Unit>
+public sealed class UpdateTaskItemCommand : IRequest<Unit>
 {
     public Guid Id { get; set; }
 

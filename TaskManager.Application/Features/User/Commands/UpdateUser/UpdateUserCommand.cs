@@ -2,7 +2,7 @@
 
 namespace TaskManager.Application.Features.User.Commands.UpdateUser;
 
-public class UpdateUserCommand : IRequest<Unit>
+public sealed class UpdateUserCommand : IRequest<Unit>
 {
     public Guid Id { get; set; }
 

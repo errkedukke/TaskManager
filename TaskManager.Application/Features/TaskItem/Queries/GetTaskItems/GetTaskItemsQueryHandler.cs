@@ -4,7 +4,7 @@ using TaskManager.Application.Contracts.Persistance;
 
 namespace TaskManager.Application.Features.TaskItem.Queries.GetTaskItems;
 
-public class GetTaskItemsQueryHandler : IRequestHandler<GetTaskItemsQuery, List<TaskItemDto>>
+public sealed class GetTaskItemsQueryHandler : IRequestHandler<GetTaskItemsQuery, List<TaskItemDto>>
 {
     private readonly ITaskItemRepository _taskItemRepository;
     private readonly IMapper _mapper;

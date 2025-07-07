@@ -10,13 +10,18 @@ using TaskManager.Application.Features.TaskItem.Queries.GetTaskItems;
 
 namespace TaskManager.API.Controllers;
 
+/// <summary>
+/// In this controller on purpose there are no try & catch blocks since
+/// I added global exception handler that would handle any exception that
+/// will be thrown by applicaiton.
+/// </summary>
+
 [ApiController]
 [Route("[controller]")]
-public class TaskItemsController : ControllerBase
+public sealed class TaskItemsController : ControllerBase
 {
     private readonly ILogger<TaskItemsController> _logger;
     private readonly IMediator _mediator;
-    private readonly string _internalServerError = "An error occurred while processing your request.";
 
     public TaskItemsController(ILogger<TaskItemsController> logger, IMediator mediator)
     {
@@ -38,23 +43,9 @@ public class TaskItemsController : ControllerBase
     public async Task<ActionResult<TaskItemDto>> GetTaskItem(Guid id, CancellationToken cancellationToken)
     {
         var query = new GetTaskItemQuery(id);
+        var response = await _mediator.Send(query, cancellationToken);
 
-        try
-        {
-            var result = await _mediator.Send(query, cancellationToken);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(500, _internalServerError);
-        }
+        return Ok(response);
     }
 
     /// <summary>
@@ -69,22 +60,8 @@ public class TaskItemsController : ControllerBase
     [ProducesResponseType(typeof(List<TaskItemDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<List<TaskItemDto>>> GetTaskItems(CancellationToken cancellationToken)
     {
-        try
-        {
-            var response = await _mediator.Send(new GetTaskItemsQuery(), cancellationToken);
-
-            if (response == null || response.Count == 0)
-            {
-                return NoContent();
-            }
-
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(500, _internalServerError);
-        }
+        var response = await _mediator.Send(new GetTaskItemsQuery(), cancellationToken);
+        return Ok(response);
     }
 
     /// <summary>
@@ -99,17 +76,8 @@ public class TaskItemsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<Guid>> CreateTask([FromBody] CreateTaskItemCommand command, CancellationToken cancellationToken)
     {
-        try
-        {
-            var id = await _mediator.Send(command, cancellationToken);
-            return CreatedAtAction(nameof(GetTaskItem), new { id }, id);
-        }
-        catch (Exception ex)
-        {
-
-            _logger.LogError(ex.Message);
-            return StatusCode(500, _internalServerError);
-        }
+        var id = await _mediator.Send(command, cancellationToken);
+        return CreatedAtAction(nameof(GetTaskItem), new { id }, id);
     }
 
     /// <summary>
@@ -130,16 +98,8 @@ public class TaskItemsController : ControllerBase
             return BadRequest("ID in URL does not match ID in body.");
         }
 
-        try
-        {
-            await _mediator.Send(command, cancellationToken);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(500, _internalServerError);
-        }
+        await _mediator.Send(command, cancellationToken);
+        return NoContent();
     }
 
     /// <summary>
@@ -153,15 +113,7 @@ public class TaskItemsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteTask(Guid id, CancellationToken cancellationToken)
     {
-        try
-        {
-            await _mediator.Send(new DeleteTaskItemCommand { Id = id }, cancellationToken);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(500, _internalServerError);
-        }
+        await _mediator.Send(new DeleteTaskItemCommand { Id = id }, cancellationToken);
+        return NoContent();
     }
 }

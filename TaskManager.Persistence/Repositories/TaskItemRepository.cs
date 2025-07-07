@@ -7,7 +7,7 @@ using TaskManager.Persistence.Repositories.Common;
 
 namespace TaskManager.Persistence.Repositories;
 
-public class TaskItemRepository(TaskManagerDbContext dbContext)
+public sealed class TaskItemRepository(TaskManagerDbContext dbContext)
     : GenericRepository<TaskItem>(dbContext), ITaskItemRepository
 {
     public async Task<List<TaskItem>> GetActiveTasksAsync(CancellationToken cancellationToken)

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
-using TaskManager.Application.Common;
 using TaskManager.Application.Contracts.Persistance;
+using TaskManager.Application.Exceptions;
 
 namespace TaskManager.Application.Features.TaskItem.Queries.GetTaskItem;
 
-public class GetTaskItemQueryHandler : IRequestHandler<GetTaskItemQuery, TaskItemDto>
+public sealed class GetTaskItemQueryHandler : IRequestHandler<GetTaskItemQuery, TaskItemDto>
 {
     private readonly ITaskItemRepository _taskItemRepository;
     private readonly IMapper _mapper;

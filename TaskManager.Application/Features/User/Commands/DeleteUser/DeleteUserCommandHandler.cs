@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using TaskManager.Application.Common;
 using TaskManager.Application.Contracts.Persistance;
+using TaskManager.Application.Exceptions;
 
 namespace TaskManager.Application.Features.User.Commands.DeleteUser;
 
-public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Unit>
+public sealed class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Unit>
 {
     private readonly IUserRepository _userRepository;
     private readonly ILogger<DeleteUserCommandHandler> _logger;

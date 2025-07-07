@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using TaskManager.Application.Common;
 using TaskManager.Application.Contracts.Persistance;
+using TaskManager.Application.Exceptions;
 
 namespace TaskManager.Application.Features.TaskItem.Commands.DeleteTaskItem;
 
-public class DeleteTaskItemCommandHandler : IRequestHandler<DeleteTaskItemCommand, Unit>
+public sealed class DeleteTaskItemCommandHandler : IRequestHandler<DeleteTaskItemCommand, Unit>
 {
     private readonly ITaskItemRepository _taskItemRepository;
     private readonly ILogger<DeleteTaskItemCommandHandler> _logger;

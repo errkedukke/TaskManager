@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Application.Common;
+﻿namespace TaskManager.Application.Exceptions;
 
 public sealed class NotFoundException : Exception
 {

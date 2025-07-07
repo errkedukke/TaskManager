@@ -5,7 +5,7 @@ using TaskManager.Domain;
 
 namespace TaskManager.Application.Mapping_Profiles;
 
-public class TaskManagerProfile : Profile
+public sealed class TaskManagerProfile : Profile
 {
     public TaskManagerProfile()
     {

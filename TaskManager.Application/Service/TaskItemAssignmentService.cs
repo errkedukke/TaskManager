@@ -5,7 +5,7 @@ using TaskManager.Domain.Enums;
 
 namespace TaskManager.Application.Service;
 
-public class TaskItemAssignmentService : ITaskItemAssignmentService
+public sealed class TaskItemAssignmentService : ITaskItemAssignmentService
 {
     private readonly IUserRepository _userRepository;
     private readonly ITaskItemRepository _taskItemRepository;

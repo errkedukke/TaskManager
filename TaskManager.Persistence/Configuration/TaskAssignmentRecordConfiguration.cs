@@ -4,7 +4,7 @@ using TaskManager.Domain;
 
 namespace TaskManager.Persistence.Configuration;
 
-public class TaskAssignmentRecordConfiguration : IEntityTypeConfiguration<TaskAssignmentRecord>
+public sealed class TaskAssignmentRecordConfiguration : IEntityTypeConfiguration<TaskAssignmentRecord>
 {
     public void Configure(EntityTypeBuilder<TaskAssignmentRecord> builder)
     {

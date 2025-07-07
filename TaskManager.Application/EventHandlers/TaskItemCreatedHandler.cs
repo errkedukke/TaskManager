@@ -5,7 +5,7 @@ using TaskManager.Domain.Events;
 
 namespace TaskManager.Application.EventHandlers;
 
-public class TaskItemCreatedHandler : INotificationHandler<TaskItemCreatedDomainEvent>
+public sealed class TaskItemCreatedHandler : INotificationHandler<TaskItemCreatedDomainEvent>
 {
     private readonly ITaskItemAssignmentService _taskItemAssignmentService;
 

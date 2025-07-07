@@ -1,4 +1,5 @@
 using TaskManager.API.Extensions;
+using TaskManager.API.Middleware;
 using TaskManager.Application;
 using TaskManager.Infrastructure;
 using TaskManager.Persistence;
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
     await app.SeedDatabase();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

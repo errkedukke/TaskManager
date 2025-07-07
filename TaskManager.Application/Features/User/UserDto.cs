@@ -1,6 +1,6 @@
 ﻿namespace TaskManager.Application.Features.User;
 
-public class UserDto
+public sealed class UserDto
 {
     public Guid Id { get; set; }
 

@@ -4,7 +4,7 @@ using TaskManager.Domain;
 
 namespace TaskManager.Persistence.Configuration;
 
-public class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
+public sealed class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
 {
     public void Configure(EntityTypeBuilder<TaskItem> builder)
     {

@@ -47,47 +47,6 @@ public class TaskItemsControllerTests
     }
 
     [Test]
-    public async Task GetTaskItem_ShouldReturnNotFound_WhenTaskDoesNotExist()
-    {
-        // Arrange
-        var taskId = Guid.NewGuid();
-
-        _mediatorMock.Setup(m => m.Send(It.IsAny<GetTaskItemQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((TaskItemDto?)null);
-
-        // Act
-        var result = await _controller.GetTaskItem(taskId, CancellationToken.None);
-        var notFoundResult = result.Result as NotFoundResult;
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(notFoundResult, Is.Not.Null);
-            Assert.That(notFoundResult!.StatusCode, Is.EqualTo(404));
-        });
-    }
-
-    [Test]
-    public async Task GetTaskItem_ShouldReturnInternalServerError_WhenExceptionIsThrown()
-    {
-        // Arrange
-        _mediatorMock.Setup(m => m.Send(It.IsAny<GetTaskItemQuery>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new Exception());
-
-        // Act
-        var result = await _controller.GetTaskItem(Guid.NewGuid(), CancellationToken.None);
-        var objectResult = result.Result as ObjectResult;
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(objectResult, Is.Not.Null);
-            Assert.That(objectResult!.StatusCode, Is.EqualTo(500));
-            Assert.That(objectResult.Value, Is.EqualTo("An error occurred while processing your request."));
-        });
-    }
-
-    [Test]
     public async Task GetTaskItems_ShouldReturnOk_WhenTasksExist()
     {
         // Arrange
@@ -110,64 +69,6 @@ public class TaskItemsControllerTests
             Assert.That(okResult, Is.Not.Null);
             Assert.That(okResult!.StatusCode, Is.EqualTo(200));
             Assert.That(okResult.Value, Is.EqualTo(tasks));
-        });
-    }
-
-    [Test]
-    public async Task GetTaskItems_ShouldReturnNoContent_WhenEmpty()
-    {
-        // Arrange
-        _mediatorMock.Setup(m => m.Send(It.IsAny<GetTaskItemsQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<TaskItemDto>());
-
-        // Act
-        var result = await _controller.GetTaskItems(CancellationToken.None);
-        var noContentResult = result.Result as NoContentResult;
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(noContentResult, Is.Not.Null);
-            Assert.That(noContentResult!.StatusCode, Is.EqualTo(204));
-        });
-    }
-
-    [Test]
-    public async Task GetTaskItems_ShouldReturnNoContent_WhenResponseIsNull()
-    {
-        // Arrange
-        _mediatorMock.Setup(m => m.Send(It.IsAny<GetTaskItemsQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((List<TaskItemDto>?)null);
-
-        // Act
-        var result = await _controller.GetTaskItems(CancellationToken.None);
-        var noContentResult = result.Result as NoContentResult;
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(noContentResult, Is.Not.Null);
-            Assert.That(noContentResult!.StatusCode, Is.EqualTo(204));
-        });
-    }
-
-    [Test]
-    public async Task GetTaskItems_ShouldReturnInternalServerError_WhenExceptionIsThrown()
-    {
-        // Arrange
-        _mediatorMock.Setup(m => m.Send(It.IsAny<GetTaskItemsQuery>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new Exception());
-
-        // Act
-        var result = await _controller.GetTaskItems(CancellationToken.None);
-        var objectResult = result.Result as ObjectResult;
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(objectResult, Is.Not.Null);
-            Assert.That(objectResult!.StatusCode, Is.EqualTo(500));
-            Assert.That(objectResult.Value, Is.EqualTo("An error occurred while processing your request."));
         });
     }
 
@@ -196,31 +97,6 @@ public class TaskItemsControllerTests
             Assert.That(createdResult!.StatusCode, Is.EqualTo(201));
             Assert.That(createdResult.RouteValues?["id"], Is.EqualTo(newId));
             Assert.That(createdResult.Value, Is.EqualTo(newId));
-        });
-    }
-
-    [Test]
-    public async Task CreateTask_ShouldReturnInternalServerError_WhenExceptionIsThrown()
-    {
-        // Arrange
-        var command = new CreateTaskItemCommand
-        {
-            Title = "Task"
-        };
-
-        _mediatorMock.Setup(m => m.Send(command, It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new Exception());
-
-        // Act
-        var result = await _controller.CreateTask(command, CancellationToken.None);
-        var objectResult = result.Result as ObjectResult;
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(objectResult, Is.Not.Null);
-            Assert.That(objectResult!.StatusCode, Is.EqualTo(500));
-            Assert.That(objectResult.Value, Is.EqualTo("An error occurred while processing your request."));
         });
     }
 
@@ -278,33 +154,6 @@ public class TaskItemsControllerTests
     }
 
     [Test]
-    public async Task UpdateTask_ShouldReturnInternalServerError_WhenExceptionIsThrown()
-    {
-        // Arrange
-        var taskId = Guid.NewGuid();
-        var command = new UpdateTaskItemCommand
-        {
-            Id = taskId,
-            Title = "Bad Update"
-        };
-
-        _mediatorMock.Setup(m => m.Send(command, It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new Exception());
-
-        // Act
-        var result = await _controller.UpdateTask(taskId, command, CancellationToken.None);
-        var objectResult = result as ObjectResult;
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(objectResult, Is.Not.Null);
-            Assert.That(objectResult!.StatusCode, Is.EqualTo(500));
-            Assert.That(objectResult.Value, Is.EqualTo("An error occurred while processing your request."));
-        });
-    }
-
-    [Test]
     public async Task DeleteTask_ShouldReturnNoContent_WhenSuccessful()
     {
         // Arrange
@@ -322,26 +171,6 @@ public class TaskItemsControllerTests
         {
             Assert.That(noContentResult, Is.Not.Null);
             Assert.That(noContentResult!.StatusCode, Is.EqualTo(204));
-        });
-    }
-
-    [Test]
-    public async Task DeleteTask_ShouldReturnInternalServerError_WhenExceptionIsThrown()
-    {
-        // Arrange
-        _mediatorMock.Setup(m => m.Send(It.IsAny<DeleteTaskItemCommand>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new Exception());
-
-        // Act
-        var result = await _controller.DeleteTask(Guid.NewGuid(), CancellationToken.None);
-        var objectResult = result as ObjectResult;
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(objectResult, Is.Not.Null);
-            Assert.That(objectResult!.StatusCode, Is.EqualTo(500));
-            Assert.That(objectResult.Value, Is.EqualTo("An error occurred while processing your request."));
         });
     }
 }

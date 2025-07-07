@@ -1,6 +1,6 @@
 ﻿namespace TaskManager.Application.Features.TaskItem;
 
-public class TaskItemDto
+public sealed class TaskItemDto
 {
     public Guid Id { get; set; }
 

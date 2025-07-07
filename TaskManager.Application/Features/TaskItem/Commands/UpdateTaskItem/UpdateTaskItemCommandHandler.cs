@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using TaskManager.Application.Common;
 using TaskManager.Application.Contracts.Persistance;
+using TaskManager.Application.Exceptions;
 
 namespace TaskManager.Application.Features.TaskItem.Commands.UpdateTaskItem;
 
-public class UpdateTaskItemCommandHandler : IRequestHandler<UpdateTaskItemCommand, Unit>
+public sealed class UpdateTaskItemCommandHandler : IRequestHandler<UpdateTaskItemCommand, Unit>
 {
     private readonly ITaskItemRepository _taskItemRepository;
     private readonly ILogger<UpdateTaskItemCommandHandler> _logger;

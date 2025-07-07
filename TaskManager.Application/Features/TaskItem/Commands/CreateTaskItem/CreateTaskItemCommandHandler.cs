@@ -1,33 +1,37 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using TaskManager.Application.Contracts.Persistance;
+using TaskManager.Application.Exceptions;
 using TaskManager.Domain.Events;
 
 namespace TaskManager.Application.Features.TaskItem.Commands.CreateTaskItem;
 
-public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemCommand, Guid>
+public sealed class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemCommand, Guid>
 {
     private readonly ITaskItemRepository _taskItemRepository;
     private readonly ILogger<CreateTaskItemCommandHandler> _logger;
     private readonly IMediator _mediator;
+    private readonly IValidator<CreateTaskItemCommand> _validator;
 
-    public CreateTaskItemCommandHandler(ITaskItemRepository taskItemRepository, ILogger<CreateTaskItemCommandHandler> logger, IMediator mediator)
+    public CreateTaskItemCommandHandler(ITaskItemRepository taskItemRepository,
+        ILogger<CreateTaskItemCommandHandler> logger,
+        IMediator mediator,
+        IValidator<CreateTaskItemCommand> validator)
     {
         _taskItemRepository = taskItemRepository;
         _logger = logger;
         _mediator = mediator;
+        _validator = validator;
     }
 
     public async Task<Guid> Handle(CreateTaskItemCommand request, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(request.Title))
-        {
-            throw new ArgumentNullException(nameof(request.Title));
-        }
+        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
-        if (await IsTaskItemUniuqe(request.Title, cancellationToken))
+        if (!validationResult.IsValid)
         {
-            throw new InvalidOperationException("A task should be unique.");
+            throw new BadRequestException("Invalid TaskItem", validationResult);
         }
 
         var taskItem = new Domain.TaskItem
@@ -42,7 +46,4 @@ public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemComman
 
         return taskItem.Id;
     }
-
-    private async Task<bool> IsTaskItemUniuqe(string title, CancellationToken cancellationToken) =>
-         await _taskItemRepository.IsTaskItemUniqueAsync(title, cancellationToken);
 }

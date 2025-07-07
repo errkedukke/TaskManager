@@ -6,7 +6,7 @@ using TaskManager.Persistence.Repositories.Common;
 
 namespace TaskManager.Persistence.Repositories;
 
-public class UserRepository(TaskManagerDbContext dbContext)
+public sealed class UserRepository(TaskManagerDbContext dbContext)
     : GenericRepository<User>(dbContext), IUserRepository
 {
     public async Task<bool> IsUserUniqueAsync(string name, CancellationToken cancellationToken)

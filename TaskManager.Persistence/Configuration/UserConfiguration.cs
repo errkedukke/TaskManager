@@ -4,7 +4,7 @@ using TaskManager.Domain;
 
 namespace TaskManager.Persistence.Configuration;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
+public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {

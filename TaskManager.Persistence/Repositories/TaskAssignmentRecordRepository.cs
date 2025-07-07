@@ -5,5 +5,5 @@ using TaskManager.Persistence.Repositories.Common;
 
 namespace TaskManager.Persistence.Repositories;
 
-public class TaskAssignmentRecordRepository(TaskManagerDbContext context)
+public sealed class TaskAssignmentRecordRepository(TaskManagerDbContext context)
     : GenericRepository<TaskAssignmentRecord>(context), ITaskAssignmentRecordRepository;

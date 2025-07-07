@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
-using TaskManager.Application.Common;
 using TaskManager.Application.Contracts.Persistance;
+using TaskManager.Application.Exceptions;
 
 namespace TaskManager.Application.Features.User.Queries.GetUser;
 
-public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
+public sealed class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;

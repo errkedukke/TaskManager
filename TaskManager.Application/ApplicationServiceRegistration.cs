@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TaskManager.Application.Contracts.BackgroundServices;
@@ -14,6 +15,7 @@ public static class ApplicationServiceRegistration
         services.AddMediatR(x => x.RegisterServicesFromAssembly(executionAssembly));
         services.AddAutoMapper(executionAssembly);
         services.AddScoped<ITaskItemAssignmentService, TaskItemAssignmentService>();
+        services.AddValidatorsFromAssembly(executionAssembly);
 
         return services;
     }
