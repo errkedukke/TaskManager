@@ -11,10 +11,10 @@ The solution follows **Clean Architecture** principles with a layered structure:
 ```
 src/
 ├── API/
-│   └── TaskManager.API                 → Entry point, controllers, setup
+│   └── TaskManager.API                 → Entry point, controllers, custom middleware, setup
 ├── Core/
 │   ├── TaskManager.Domain              → Entities, enums, domain events
-│   └── TaskManager.Application         → Interfaces, services, business logic
+│   └── TaskManager.Application         → Interfaces, services, business logic, input validation
 ├── Infrastructure/
 │   └── TaskManager.Infrastructure      → Background Services
 │   └── TaskManager.Persistence         → EF Core context, configs, seeders
