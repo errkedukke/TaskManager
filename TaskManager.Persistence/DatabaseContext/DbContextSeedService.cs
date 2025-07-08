@@ -57,33 +57,4 @@ public sealed class DbContextSeedService : IDbContextSeedService
     {
         await _dbContext.Set<T>().AddRangeAsync(entities);
     }
-
-    public async Task SeedDatabaseAsyncw()
-    {
-        if (_dbContext.Users.Any() || _dbContext.TaskItems.Any() || _dbContext.TaskAssignmentRecords.Any())
-        {
-            return;
-        }
-
-        var taskItemsPath = Path.Combine(_basePath, "TaskItems.json");
-        var usersPath = Path.Combine(_basePath, "Users.json");
-        var taskAssignmentRecordPath = Path.Combine(_basePath, "TaskAssignmentRecords.json");
-
-        if (!File.Exists(taskItemsPath) || !File.Exists(usersPath) || !File.Exists(taskAssignmentRecordPath))
-        {
-            throw new FileNotFoundException("Seed data files not found");
-        }
-
-        var taskItemsAsJson = await File.ReadAllTextAsync(taskItemsPath);
-        var usersAsJson = await File.ReadAllTextAsync(usersPath);
-        var taskAssignmentRecordAsJson = await File.ReadAllTextAsync(usersPath);
-
-        var tasks = JsonSerializer.Deserialize<List<TaskItem>>(taskItemsAsJson);
-        var users = JsonSerializer.Deserialize<List<User>>(usersAsJson);
-        var taskASsignments = JsonSerializer.Deserialize<List<TaskAssignmentRecord>>(taskItemsAsJson);
-
-        await _dbContext.TaskItems.AddRangeAsync(tasks);
-        await _dbContext.Users.AddRangeAsync(users);
-        await _dbContext.TaskAssignmentRecords.AddRangeAsync(taskASsignments);
-    }
 }

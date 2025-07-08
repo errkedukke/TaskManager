@@ -18,13 +18,10 @@ public sealed class UpdateTaskItemCommandHandler : IRequestHandler<UpdateTaskIte
 
     public async Task<Unit> Handle(UpdateTaskItemCommand request, CancellationToken cancellationToken)
     {
-        var taskItem = await _taskItemRepository.GetByIdAsync(request.Id, cancellationToken);
-        var originalTitle = taskItem.Title;
-
-        if (taskItem == null)
-        {
+        var taskItem = await _taskItemRepository.GetByIdAsync(request.Id, cancellationToken) ??
             throw new NotFoundException(nameof(TaskItem), request.Id);
-        }
+
+        var originalTitle = taskItem.Title;
 
         taskItem.Title = request.Title;
         taskItem.State = request.State;

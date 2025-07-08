@@ -18,14 +18,10 @@ public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand
 
     public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
-        var originalName = user.Name;
-
-        if (user == null)
-        {
+        var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken) ??
             throw new NotFoundException(nameof(User), request.Id);
-        }
 
+        var originalName = user.Name;
         user.Name = request.Name;
 
         await _userRepository.UpdateAsync(user, cancellationToken);

@@ -18,12 +18,8 @@ public sealed class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
 
     public async Task<UserDto> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
-
-        if (user == null)
-        {
+        var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken) ??
             throw new NotFoundException(nameof(User), request.Id);
-        }
 
         return _mapper.Map<UserDto>(user);
     }
