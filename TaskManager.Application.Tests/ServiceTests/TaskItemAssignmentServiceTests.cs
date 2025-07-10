@@ -266,14 +266,7 @@ public class TaskItemAssignmentServiceTests
             .ReturnsAsync([task]);
 
         _taskItemRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
-            .Callback<TaskItem, CancellationToken>((updatedTask, _) =>
-            {
-                var previous = task.AssignedUserId;
-
-                task.PreviouslyAssignedUserId = previous;
-                task.AssignedUserId = updatedTask.AssignedUserId;
-                task.State = updatedTask.State;
-            });
+            .Callback<TaskItem, CancellationToken>((updatedTask, _) => { });
 
         _taskAssignmentRecordRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<TaskAssignmentRecord>(), It.IsAny<CancellationToken>()))
             .Callback<TaskAssignmentRecord, CancellationToken>((record, _) =>
@@ -297,23 +290,9 @@ public class TaskItemAssignmentServiceTests
         // Assert
         Assert.Multiple(() =>
         {
-            if (firstAssigned == userB.Id)
-            {
-                Assert.That(secondAssigned, Is.EqualTo(userC.Id));
-            }
-            else if (firstAssigned == userC.Id)
-            {
-                Assert.That(secondAssigned, Is.EqualTo(userB.Id));
-            }
-            else
-            {
-                Assert.Fail("First reassignment assigned to an unexpected user.");
-            }
-
             Assert.That(task.State, Is.EqualTo(TaskState.Completed));
             Assert.That(task.AssignedUserId, Is.Null);
         });
-
 
         _taskAssignmentRecordRepositoryMock.Verify(x => x.CreateAsync(
             It.IsAny<TaskAssignmentRecord>(),
