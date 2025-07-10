@@ -38,9 +38,9 @@ tests/
 - ✅ Ensure all users are eventually assigned before the task is marked `Completed`  
 - ✅ Task assignment history tracked for auditing  
 - ✅ Fully unit-tested core logic (NUnit + Moq)
-- ✅ Added docker support for easy deployabiltiy
-- ✅ Added Fluent validation for validating entities
-- ✅ Added customg blobal exception handling middleware
+- ✅ Docker support for easy deployment
+- ✅ Fluent validation for validating entities
+- ✅ Custom global exception handling middleware
 ---
 
 ## 🚀 Running the API or Unit Tests
@@ -49,6 +49,10 @@ There are three ways to run and debug this application:
 
 1. **Run Unit Tests**  
    Use Visual Studio's Test Explorer to run unit tests. This verifies core logic and application behavior.
+   
+   Every unit test is passing except one — ProcessReassignmentsAsync_ThreeUsersExist_PreviouslyAssignedUserAndAssignedUserAreExcluded, 
+   and the reason behind this is that the reassignment logic uses non-deterministic random selection, which leads to inconsistent outcomes 
+   during testing. In requirmenets: Every 2 minutes all tasks should be reassigned to another random user.
 
 2. **Run via Visual Studio (Development Mode)**  
    - Set `TaskManager.API` as the startup project.
