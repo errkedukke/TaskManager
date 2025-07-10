@@ -22,26 +22,15 @@ public sealed class TaskItemAssignmentService : ITaskItemAssignmentService
     {
         var users = await _userRepository.GetAsync(cancellationToken);
 
-        if (users.Count == 0)
+        if (users.Any())
         {
-            task.State = TaskState.Waiting;
-            await _taskItemRepository.UpdateAsync(task, cancellationToken);
-            return;
+            var randomUser = PickRandom(users);
+            await AssignTaskItemAsync(task, randomUser, cancellationToken);
         }
-
-        var random = PickRandom(users);
-
-        task.AssignedUserId = random.Id;
-        task.State = TaskState.InProgress;
-
-        var taskAssignmentRecord = new TaskAssignmentRecord
+        else
         {
-            TaskItemId = task.Id,
-            UserId = random.Id,
-        };
-
-        await _taskAssignmentRecordRepository.CreateAsync(taskAssignmentRecord, cancellationToken);
-        await _taskItemRepository.UpdateAsync(task, cancellationToken);
+            await UnAssignTaskItemAsync(task, cancellationToken);
+        }
     }
 
     public async Task ProcessReassignmentsAsync(CancellationToken cancellationToken)
@@ -49,30 +38,77 @@ public sealed class TaskItemAssignmentService : ITaskItemAssignmentService
         var users = await _userRepository.GetAsync(cancellationToken);
         var activeTasks = await _taskItemRepository.GetActiveTasksAsync(cancellationToken);
 
-        if (users.Count == 0 || activeTasks.Count == 0)
+        if (!users.Any())
         {
+            foreach (var task in activeTasks)
+            {
+                await UnAssignTaskItemAsync(task, cancellationToken);
+            }
+
             return;
         }
 
         foreach (var task in activeTasks)
         {
-            var eligibleUsers = GetEligibleUsers(task, users);
-
-            if (TaskAssignedToAllUsers(task, users))
-            {
-                CompleteTask(task);
-            }
-            else if (!eligibleUsers.Any())
-            {
-                PutTaskInWaitingState(task);
-            }
-            else
-            {
-                await ReassignTaskAsync(task, eligibleUsers, cancellationToken);
-            }
-
-            await _taskItemRepository.UpdateAsync(task, cancellationToken);
+            await ProcessReAssignmentAsync(task, users, cancellationToken);
         }
+
+    }
+
+    private async Task ProcessReAssignmentAsync(TaskItem task, IReadOnlyList<User> users, CancellationToken cancellationToken)
+    {
+        if (TaskHasBeenAssignedToAllExistingUsers(task, users))
+        {
+            await CompleteTaskAync(task, cancellationToken);
+            return;
+        }
+
+        var eligibleUsers = GetEligibleUsers(task, users);
+
+        if (eligibleUsers.Any())
+        {
+            var randomUser = PickRandom(eligibleUsers);
+            await AssignTaskItemAsync(task, randomUser, cancellationToken);
+        }
+        else
+        {
+            await UnAssignTaskItemAsync(task, cancellationToken);
+        }
+    }
+
+    private async Task CompleteTaskAync(TaskItem task, CancellationToken cancellationToken)
+    {
+        task.AssignedUserId = null;
+        task.AssignedUser = null;
+        task.PreviouslyAssignedUserId = null;
+        task.State = TaskState.Completed;
+
+        await _taskItemRepository.UpdateAsync(task, cancellationToken);
+    }
+
+    private async Task UnAssignTaskItemAsync(TaskItem task, CancellationToken cancellationToken)
+    {
+        task.State = TaskState.Waiting;
+        task.AssignedUserId = null;
+        task.AssignedUser = null;
+
+        await _taskItemRepository.UpdateAsync(task, cancellationToken);
+    }
+
+    private async Task AssignTaskItemAsync(TaskItem task, User user, CancellationToken cancellationToken)
+    {
+        task.PreviouslyAssignedUserId = task.AssignedUserId;
+        task.AssignedUserId = user.Id;
+        task.State = TaskState.InProgress;
+
+        var taskAssignmentRecord = new TaskAssignmentRecord
+        {
+            TaskItemId = task.Id,
+            UserId = user.Id,
+        };
+
+        await _taskAssignmentRecordRepository.CreateAsync(taskAssignmentRecord, cancellationToken);
+        await _taskItemRepository.UpdateAsync(task, cancellationToken);
     }
 
     private static T PickRandom<T>(IReadOnlyList<T> items)
@@ -80,7 +116,7 @@ public sealed class TaskItemAssignmentService : ITaskItemAssignmentService
         return items[Random.Shared.Next(items.Count)];
     }
 
-    private static List<User> GetEligibleUsers(TaskItem task, IReadOnlyList<User> users)
+    private static IReadOnlyList<User> GetEligibleUsers(TaskItem task, IReadOnlyList<User> users)
     {
         var excludeIds = new HashSet<Guid>();
 
@@ -90,53 +126,14 @@ public sealed class TaskItemAssignmentService : ITaskItemAssignmentService
         if (task.PreviouslyAssignedUserId.HasValue)
             excludeIds.Add(task.PreviouslyAssignedUserId.Value);
 
-        var alreadyAssignedIds = task.TaskAssignmentRecords
-            .Select(x => x.UserId)
-            .ToHashSet();
-
-        return users
-            .Where(x => !excludeIds.Contains(x.Id))
-            .Where(x => !alreadyAssignedIds.Contains(x.Id))
-            .ToList();
+        return users.Where(x => !excludeIds.Contains(x.Id)).ToList();
     }
 
-    private static bool TaskAssignedToAllUsers(TaskItem task, IReadOnlyList<User> users)
+    private static bool TaskHasBeenAssignedToAllExistingUsers(TaskItem task, IReadOnlyList<User> users)
     {
-        var assignedUserIds = task.TaskAssignmentRecords
-            .Select(r => r.UserId)
-            .Distinct()
-            .ToHashSet();
+        var assignedUserIds = task.TaskAssignmentRecords.Select(x => x.UserId)
+           .ToHashSet();
 
-        return assignedUserIds.Count >= users.Count;
-    }
-
-    private static void CompleteTask(TaskItem task)
-    {
-        task.AssignedUserId = null;
-        task.PreviouslyAssignedUserId = null;
-        task.State = TaskState.Completed;
-    }
-
-    private static void PutTaskInWaitingState(TaskItem task)
-    {
-        task.AssignedUserId = null;
-        task.State = TaskState.Waiting;
-    }
-
-    private async Task ReassignTaskAsync(TaskItem task, List<User> eligibleUsers, CancellationToken cancellationToken)
-    {
-        var newUser = PickRandom(eligibleUsers);
-
-        task.PreviouslyAssignedUserId = task.AssignedUserId;
-        task.AssignedUserId = newUser.Id;
-        task.State = TaskState.InProgress;
-
-        var assignmentRecord = new TaskAssignmentRecord
-        {
-            TaskItemId = task.Id,
-            UserId = newUser.Id
-        };
-
-        await _taskAssignmentRecordRepository.CreateAsync(assignmentRecord, cancellationToken);
+        return users.All(x => assignedUserIds.Contains(x.Id));
     }
 }
