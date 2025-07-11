@@ -1,4 +1,6 @@
-﻿namespace TaskManager.Application.Tests.ServiceTests;
+﻿using Microsoft.Extensions.Logging;
+
+namespace TaskManager.Application.Tests.ServiceTests;
 
 [TestFixture]
 public class TaskItemAssignmentServiceTests
@@ -7,6 +9,7 @@ public class TaskItemAssignmentServiceTests
     private Mock<ITaskItemRepository> _taskItemRepositoryMock = null!;
     private Mock<ITaskAssignmentRecordRepository> _taskAssignmentRecordRepositoryMock = null!;
     private TaskItemAssignmentService _service = null!;
+    private Mock<ILogger<TaskItemAssignmentService>> _loggerMock = null!;
 
     [SetUp]
     public void SetUp()
@@ -14,8 +17,8 @@ public class TaskItemAssignmentServiceTests
         _userRepositoryMock = new Mock<IUserRepository>();
         _taskItemRepositoryMock = new Mock<ITaskItemRepository>();
         _taskAssignmentRecordRepositoryMock = new Mock<ITaskAssignmentRecordRepository>();
-
-        _service = new TaskItemAssignmentService(_userRepositoryMock.Object, _taskItemRepositoryMock.Object, _taskAssignmentRecordRepositoryMock.Object);
+        _loggerMock = new Mock<ILogger<TaskItemAssignmentService>>();
+        _service = new TaskItemAssignmentService(_userRepositoryMock.Object, _taskItemRepositoryMock.Object, _taskAssignmentRecordRepositoryMock.Object, _loggerMock.Object);
     }
 
     [TearDown]
