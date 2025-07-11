@@ -1,82 +1,10 @@
 [
   {
-    "Id": "8e2f7cb5-f9a1-4bb9-bb84-93cd39e2683b",
+    "Id": "10000000-0000-0000-0000-000000000001",
     "Title": "Design Login Page",
     "State": "InProgress",
-    "AssignedUserId": "f2c04f96-6f36-48b5-8616-7e4fa7b4f6e5",
-    "PreviouslyAssignedUserId": "a1d3b7be-b2f4-44b2-a4a3-49d12d122c10",
+    "AssignedUserId": "00000000-0000-0000-0000-000000000001",
+    "PreviouslyAssignedUserId": null,
     "DateCreated": "2025-07-01T09:00:00Z"
-  },
-  {
-    "Id": "f51dc60a-9302-44e2-8239-0e77e5b6b40d",
-    "Title": "Implement JWT Authentication",
-    "State": "Waiting",
-    "AssignedUserId": null,
-    "PreviouslyAssignedUserId": null,
-    "DateCreated": "2025-07-01T09:10:00Z"
-  },
-  {
-    "Id": "e63a94cd-c6fc-40f1-bf6d-dc2f70a2d702",
-    "Title": "Create API Documentation",
-    "State": "Completed",
-    "AssignedUserId": "0e829c85-ec91-4b2e-9c12-2a0b6a65708e",
-    "PreviouslyAssignedUserId": "9c65b09f-5a91-4f2f-bec6-13dfeefef491",
-    "DateCreated": "2025-07-01T09:20:00Z"
-  },
-  {
-    "Id": "add1cb33-52a0-4d8e-963f-93a5c870aaf4",
-    "Title": "Integrate Swagger UI",
-    "State": "InProgress",
-    "AssignedUserId": "b5f9c3c7-24b4-42c6-a048-b7a0b1f7f80f",
-    "PreviouslyAssignedUserId": "f2c04f96-6f36-48b5-8616-7e4fa7b4f6e5",
-    "DateCreated": "2025-07-01T09:30:00Z"
-  },
-  {
-    "Id": "a0b10dc5-59c1-4a2d-85b5-ec8270a2213c",
-    "Title": "Optimize Database Indexes",
-    "State": "Waiting",
-    "AssignedUserId": null,
-    "PreviouslyAssignedUserId": null,
-    "DateCreated": "2025-07-01T09:40:00Z"
-  },
-  {
-    "Id": "9a46d0ee-37ea-48f5-86f3-ec0b3a1b5947",
-    "Title": "Write Unit Tests",
-    "State": "InProgress",
-    "AssignedUserId": "a1d3b7be-b2f4-44b2-a4a3-49d12d122c10",
-    "PreviouslyAssignedUserId": "0e829c85-ec91-4b2e-9c12-2a0b6a65708e",
-    "DateCreated": "2025-07-01T09:50:00Z"
-  },
-  {
-    "Id": "ea453b50-ff42-4a46-8082-9fc1eac9a2ec",
-    "Title": "Implement Role-Based Access",
-    "State": "Waiting",
-    "AssignedUserId": null,
-    "PreviouslyAssignedUserId": null,
-    "DateCreated": "2025-07-01T10:00:00Z"
-  },
-  {
-    "Id": "c3ac6db7-97f1-4f30-8b01-457f1d53c13b",
-    "Title": "Setup CI/CD Pipeline",
-    "State": "Completed",
-    "AssignedUserId": "9c65b09f-5a91-4f2f-bec6-13dfeefef491",
-    "PreviouslyAssignedUserId": "b5f9c3c7-24b4-42c6-a048-b7a0b1f7f80f",
-    "DateCreated": "2025-07-01T10:10:00Z"
-  },
-  {
-    "Id": "d2c62a2d-9b9b-46c3-872b-c1f1c0d23f98",
-    "Title": "Create Logging Middleware",
-    "State": "InProgress",
-    "AssignedUserId": "f2c04f96-6f36-48b5-8616-7e4fa7b4f6e5",
-    "PreviouslyAssignedUserId": "a1d3b7be-b2f4-44b2-a4a3-49d12d122c10",
-    "DateCreated": "2025-07-01T10:20:00Z"
-  },
-  {
-    "Id": "601bf30c-3273-4adf-bf60-042b33b55df3",
-    "Title": "Write README and Setup Guide",
-    "State": "Completed",
-    "AssignedUserId": "0e829c85-ec91-4b2e-9c12-2a0b6a65708e",
-    "PreviouslyAssignedUserId": null,
-    "DateCreated": "2025-07-01T10:30:00Z"
   }
 ]

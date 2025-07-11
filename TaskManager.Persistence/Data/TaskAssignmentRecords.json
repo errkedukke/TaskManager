@@ -1,74 +1,8 @@
 [
   {
-    "Id": "1004d9b4-ea0b-47ef-9f83-dac28ff0dfb1",
-    "TaskItemId": "8e2f7cb5-f9a1-4bb9-bb84-93cd39e2683b",
-    "UserId": "a1d3b7be-b2f4-44b2-a4a3-49d12d122c10",
+    "Id": "20000000-0000-0000-0000-000000000001",
+    "TaskItemId": "10000000-0000-0000-0000-000000000001",
+    "UserId": "00000000-0000-0000-0000-000000000001",
     "DateCreated": "2025-07-01T09:00:00Z"
-  },
-  {
-    "Id": "f50cfc80-0c50-41e0-92be-dfbe1f12e49d",
-    "TaskItemId": "8e2f7cb5-f9a1-4bb9-bb84-93cd39e2683b",
-    "UserId": "f2c04f96-6f36-48b5-8616-7e4fa7b4f6e5",
-    "DateCreated": "2025-07-01T09:30:00Z"
-  },
-  {
-    "Id": "4d7a3e56-1f45-4fc8-851e-b8e682021eb7",
-    "TaskItemId": "e63a94cd-c6fc-40f1-bf6d-dc2f70a2d702",
-    "UserId": "9c65b09f-5a91-4f2f-bec6-13dfeefef491",
-    "DateCreated": "2025-07-01T09:10:00Z"
-  },
-  {
-    "Id": "9cf3f45f-8e9c-4e3e-a8e4-9cbbd74f5c3c",
-    "TaskItemId": "e63a94cd-c6fc-40f1-bf6d-dc2f70a2d702",
-    "UserId": "0e829c85-ec91-4b2e-9c12-2a0b6a65708e",
-    "DateCreated": "2025-07-01T09:50:00Z"
-  },
-  {
-    "Id": "6040af34-55b4-4e41-a167-16b31776339c",
-    "TaskItemId": "add1cb33-52a0-4d8e-963f-93a5c870aaf4",
-    "UserId": "f2c04f96-6f36-48b5-8616-7e4fa7b4f6e5",
-    "DateCreated": "2025-07-01T09:10:00Z"
-  },
-  {
-    "Id": "2fbe4c8b-8d4e-4641-b435-38c8aa62f4d3",
-    "TaskItemId": "add1cb33-52a0-4d8e-963f-93a5c870aaf4",
-    "UserId": "b5f9c3c7-24b4-42c6-a048-b7a0b1f7f80f",
-    "DateCreated": "2025-07-01T09:45:00Z"
-  },
-  {
-    "Id": "eb4d0383-6d06-45d6-b170-8a53648c5b5e",
-    "TaskItemId": "9a46d0ee-37ea-48f5-86f3-ec0b3a1b5947",
-    "UserId": "0e829c85-ec91-4b2e-9c12-2a0b6a65708e",
-    "DateCreated": "2025-07-01T09:30:00Z"
-  },
-  {
-    "Id": "9b8988db-c5c5-45e3-a4f6-0051b2d20432",
-    "TaskItemId": "9a46d0ee-37ea-48f5-86f3-ec0b3a1b5947",
-    "UserId": "a1d3b7be-b2f4-44b2-a4a3-49d12d122c10",
-    "DateCreated": "2025-07-01T09:55:00Z"
-  },
-  {
-    "Id": "2c79fffc-4f68-49b8-89be-8a973bb6cb1e",
-    "TaskItemId": "c3ac6db7-97f1-4f30-8b01-457f1d53c13b",
-    "UserId": "b5f9c3c7-24b4-42c6-a048-b7a0b1f7f80f",
-    "DateCreated": "2025-07-01T09:00:00Z"
-  },
-  {
-    "Id": "e02c244c-6ef0-407a-86b6-c1453e45b649",
-    "TaskItemId": "c3ac6db7-97f1-4f30-8b01-457f1d53c13b",
-    "UserId": "9c65b09f-5a91-4f2f-bec6-13dfeefef491",
-    "DateCreated": "2025-07-01T10:10:00Z"
-  },
-  {
-    "Id": "d56eb23d-29b8-4625-93a2-21295d8462b3",
-    "TaskItemId": "d2c62a2d-9b9b-46c3-872b-c1f1c0d23f98",
-    "UserId": "a1d3b7be-b2f4-44b2-a4a3-49d12d122c10",
-    "DateCreated": "2025-07-01T09:15:00Z"
-  },
-  {
-    "Id": "c5c4dcf2-ea6a-4cbf-8ff3-936a70fae730",
-    "TaskItemId": "d2c62a2d-9b9b-46c3-872b-c1f1c0d23f98",
-    "UserId": "f2c04f96-6f36-48b5-8616-7e4fa7b4f6e5",
-    "DateCreated": "2025-07-01T10:20:00Z"
   }
 ]

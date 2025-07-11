@@ -11,6 +11,6 @@ public sealed class UserRepository(TaskManagerDbContext dbContext)
 {
     public async Task<bool> IsUserUniqueAsync(string name, CancellationToken cancellationToken)
     {
-        return await dbContext.Users.AsNoTracking().AnyAsync(x => x.Name == name, cancellationToken);
+        return !await dbContext.Users.AsNoTracking().AnyAsync(x => x.Name == name, cancellationToken);
     }
 }

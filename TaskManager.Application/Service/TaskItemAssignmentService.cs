@@ -1,4 +1,5 @@
-﻿using TaskManager.Application.Contracts.BackgroundServices;
+﻿using Microsoft.Extensions.Logging;
+using TaskManager.Application.Contracts.BackgroundServices;
 using TaskManager.Application.Contracts.Persistance;
 using TaskManager.Domain;
 using TaskManager.Domain.Enums;
@@ -10,49 +11,76 @@ public sealed class TaskItemAssignmentService : ITaskItemAssignmentService
     private readonly IUserRepository _userRepository;
     private readonly ITaskItemRepository _taskItemRepository;
     private readonly ITaskAssignmentRecordRepository _taskAssignmentRecordRepository;
+    private readonly ILogger<TaskItemAssignmentService> _logger;
 
-    public TaskItemAssignmentService(IUserRepository userRepository, ITaskItemRepository taskItemRepository, ITaskAssignmentRecordRepository taskAssignmentRecordRepository)
+    public TaskItemAssignmentService(IUserRepository userRepository,
+        ITaskItemRepository taskItemRepository,
+        ITaskAssignmentRecordRepository taskAssignmentRecordRepository,
+        ILogger<TaskItemAssignmentService> logger)
     {
         _userRepository = userRepository;
         _taskItemRepository = taskItemRepository;
         _taskAssignmentRecordRepository = taskAssignmentRecordRepository;
+        _logger = logger;
     }
 
     public async Task AssignInitialUserAsync(TaskItem task, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Starting initial assignment for Task {TaskId}", task.Id);
+
         var users = await _userRepository.GetAsync(cancellationToken);
+        _logger.LogInformation("Retrieved {UserCount} users from repository", users.Count);
 
         if (users.Any())
         {
             var randomUser = PickRandom(users);
+            _logger.LogInformation("Assigning Task {TaskId} to random User {UserId}", task.Id, randomUser.Id);
+
             await AssignTaskItemAsync(task, randomUser, cancellationToken);
+
+            _logger.LogInformation("Successfully assigned Task {TaskId} to User {UserId}", task.Id, randomUser.Id);
         }
         else
         {
+            _logger.LogWarning("No users available for initial assignment. Unassigning Task {TaskId}", task.Id);
+
             await UnAssignTaskItemAsync(task, cancellationToken);
+
+            _logger.LogInformation("Task {TaskId} unassigned due to lack of users", task.Id);
         }
     }
 
     public async Task ProcessReassignmentsAsync(CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Starting task reassignment process");
+
         var users = await _userRepository.GetAsync(cancellationToken);
+        _logger.LogInformation("Retrieved {UserCount} users from repository", users.Count);
+
         var activeTasks = await _taskItemRepository.GetActiveTasksAsync(cancellationToken);
+        _logger.LogInformation("Retrieved {TaskCount} active tasks from repository", activeTasks.Count);
 
         if (!users.Any())
         {
+            _logger.LogWarning("No users available. Unassigning all active tasks");
+
             foreach (var task in activeTasks)
             {
+                _logger.LogInformation("Unassigning Task {TaskId} due to empty user list", task.Id);
                 await UnAssignTaskItemAsync(task, cancellationToken);
             }
 
+            _logger.LogInformation("Completed unassigning all tasks");
             return;
         }
 
         foreach (var task in activeTasks)
         {
+            _logger.LogInformation("Processing reassignment for Task {TaskId}", task.Id);
             await ProcessReAssignmentAsync(task, users, cancellationToken);
         }
 
+        _logger.LogInformation("Completed task reassignment process");
     }
 
     private async Task ProcessReAssignmentAsync(TaskItem task, IReadOnlyList<User> users, CancellationToken cancellationToken)
